@@ -1,0 +1,85 @@
+<div class="register-container">
+    <h2>Create account</h2>
+
+    @if (errorMessage) {
+        <div class="error-message">{{ errorMessage }}</div>
+    }
+
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+        <div class="form-field">
+            <label for="email">Email</label>
+            <input id="email" type="email" formControlName="email">
+
+            @if(registerForm.get('email')?.invalid && registerForm.get('email')?.touched) {
+                <div class="field-error">Please enter a valid email</div>
+            }
+        </div>
+
+        <div class="form-field">
+            <label for="firstName">First Name</label>
+            <input id="firstName" type="text" formControlName="firstName">
+
+            @if(registerForm.get('firstName')?.invalid && registerForm.get('firstName')?.touched) {
+                <div class="field-error">First name is required</div>
+            }
+        </div>
+
+        <div class="form-field">
+            <label for="lastName">Last Name</label>
+            <input id="lastName" type="text" formControlName="lastName">
+
+            @if(registerForm.get('lastName')?.invalid && registerForm.get('lastName')?.touched) {
+                <div class="field-error">Last name is required</div>
+            }
+        </div>
+
+        <div class="form-field">
+            <label for="username">Username</label>
+            <input id="username" type="text" formControlName="username">
+
+            @if(registerForm.get('username')?.invalid && registerForm.get('username')?.touched) {
+                <div class="field-error">Username is required</div>
+            }
+        </div>
+
+        <div class="form-field">
+            <label for="phoneNumber">Phone Number</label>
+            <input id="phoneNumber" type="text" formControlName="phoneNumber">
+
+            @if(registerForm.get('phoneNumber')?.touched) {
+                 @if(registerForm.get('phoneNumber')?.hasError('required')) {
+                     <div class="field-error">Phone number is required</div>
+                } @else if(registerForm.get('phoneNumber')?.hasError('pattern')) {
+            <div class="field-error">Please enter a valid phone number (e.g. +380501234567)</div>
+  }
+}
+        </div>
+
+        <div class="form-field">
+            <label for="password">Password</label>
+            <input id="password" type="password" formControlName="password">
+
+            @if(registerForm.get('password')?.invalid && registerForm.get('password')?.touched) {
+                <div class="field-error">Password must be at least 8 characters and include an uppercase letter, a lowercase letter, a digit and a special character</div>
+            }
+        </div>
+
+        <div class="form-field">
+            <label for="confirmPassword">Confirm Password</label>
+            <input id="confirmPassword" type="password" formControlName="confirmPassword">
+
+            @if(registerForm.errors?.['passwordMismatch'] && registerForm.get('confirmPassword')?.touched) {
+            <div class="field-error">Passwords do not match</div>
+}
+        </div>
+
+        <button type="submit" [disabled]="registerForm.invalid || loading">
+            {{ loading ? 'Creating account...' : 'Sign up' }}
+        </button>
+        
+    </form>
+
+    <a class="auth-switch" routerLink="/login">Already have an account? Login</a>
+
+</div>
+ 

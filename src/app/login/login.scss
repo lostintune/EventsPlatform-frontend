@@ -1,0 +1,97 @@
+.login-container {
+  max-width: 360px;
+  margin: 4rem auto;
+  padding: 2.5rem 2rem;
+  background: #ffffff;
+  border: 1px solid #e1e3ec;
+  border-radius: 12px;
+  color: #1a1a2e;
+  box-shadow: 0 20px 40px rgba(10, 25, 88, 0.08);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+
+  h2 {
+    margin: 0 0 1.75rem;
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: #0a1958;
+  }
+}
+
+.error-message {
+  margin-bottom: 1rem;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  background: #fef2f2;
+  color: #dc2626;
+  font-size: 0.9rem;
+}
+
+.form-field {
+  margin-bottom: 1.25rem;
+
+  label {
+    display: block;
+    margin-bottom: 0.4rem;
+    font-size: 0.85rem;
+    color: #6b7280;
+  }
+
+  input {
+    width: 100%;
+    padding: 0.65rem 0.9rem;
+    border-radius: 8px;
+    border: 1px solid #e1e3ec;
+    background: #f4f5f9;
+    color: #1a1a2e;
+    font-size: 1rem;
+    box-sizing: border-box;
+
+    &:focus {
+      outline: none;
+      border-color: #0a1958;
+      background: #ffffff;
+    }
+  }
+}
+
+.field-error {
+  margin-top: 0.4rem;
+  font-size: 0.8rem;
+  color: #dc2626;
+}
+
+button[type='submit'] {
+  width: 100%;
+  padding: 0.75rem;
+  border: none;
+  border-radius: 8px;
+  background: #0a1958;
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.2s ease;
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  &:not(:disabled):hover {
+    background: #060f38;
+  }
+}
+
+.auth-switch {
+  display: block;
+  margin-top: 1.5rem;
+  text-align: center;
+  font-size: 0.9rem;
+  color: #6b7280;
+  text-decoration: none;
+
+  &:hover {
+    color: #0a1958;
+    text-decoration: underline;
+  }
+}
