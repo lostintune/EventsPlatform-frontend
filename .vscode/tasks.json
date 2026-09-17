@@ -3,6 +3,31 @@
   "version": "2.0.0",
   "tasks": [
     {
+      "label": "Start Backend",
+      "type": "shell",
+      "command": "dotnet run --project EventsPlatform.API",
+      "options": {
+        "cwd": "/Users/george/Desktop/EventsPlatform"
+      },
+      "isBackground": true,
+      "problemMatcher": {
+        "owner": "dotnet",
+        "pattern": {
+          "regexp": "."
+        },
+        "background": {
+          "activeOnStart": true,
+          "beginsPattern": "Building\\.\\.\\.",
+          "endsPattern": "Application started\\."
+        }
+      },
+      "presentation": {
+        "panel": "dedicated",
+        "group": "fullstack"
+      }
+    },
+    {
+      "label": "Start Frontend",
       "type": "npm",
       "script": "start",
       "isBackground": true,
@@ -18,6 +43,20 @@
             "regexp": "bundle generation (complete|failed)"
           }
         }
+      },
+      "presentation": {
+        "panel": "dedicated",
+        "group": "fullstack"
+      }
+    },
+    {
+      "label": "Run Fullstack",
+      "dependsOn": ["Start Backend", "Start Frontend"],
+      "dependsOrder": "parallel",
+      "problemMatcher": [],
+      "group": {
+        "kind": "build",
+        "isDefault": true
       }
     },
     {
