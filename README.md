@@ -1,59 +1,53 @@
-# EventsPlatformFrontend
+# EventsPlatform — Frontend
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 22.0.7.
+Angular client for **EventsPlatform** — an events/news platform (think of it as a lightweight blog for event announcements). Talks to the EventsPlatform backend (ASP.NET Core, Clean Architecture) over a REST API.
 
-## Development server
+## What it does
 
-To start a local development server, run:
+- Browse published events without logging in — search by name, paginated.
+- Open a single event to see its full description, date, and author.
+- Register / log in (JWT-based auth).
+- View and edit your own profile.
+- Manage your own events: create a draft, edit it, upload a picture, publish/unpublish, delete.
+- "My Events" page lists both drafts and published events, with publish/unpublish/delete actions inline.
 
-```bash
-ng serve
+## Stack
+
+- **Angular 22**, standalone components, [Signals](https://angular.dev/guide/signals) for state — the app runs without `zone.js`, so any state that drives a template has to be a signal for change detection to pick it up.
+- **Server-side rendering** (`@angular/ssr`). Public pages (event list, event detail) render on the server; pages that need `localStorage` (profile, my events, create/edit forms) render client-only (`RenderMode.Client`), since SSR has no access to browser storage.
+- **Reactive Forms** for every form (login, register, profile, event create/edit).
+- Auth via a JWT stored in `localStorage`, attached to outgoing requests through an `HttpInterceptorFn`, with a `CanActivateFn` guard protecting private routes.
+
+## Project structure
+
+```
+src/app/
+  models/       — TypeScript interfaces matching the backend's request/response DTOs
+  services/     — HTTP calls (auth, events, profile, file upload)
+  guards/       — route guards
+  interceptors/ — HTTP interceptors
+  login/, register/, profile/ — auth & account pages
+  events/
+    event-list/   — public list, search + pagination
+    event-detail/ — single event page
+    my-events/    — the current user's own events (drafts + published)
+    event-form/   — shared create/edit form
+  shared/components/nav-bar/ — app-wide navigation
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+## Running locally
 
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+Needs the EventsPlatform backend running on `http://localhost:5056` — requests to `/api` and `/uploads` are proxied there in dev mode (see `proxy.conf.json`).
 
 ```bash
-ng generate component component-name
+npm install
+npm start
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+Opens on `http://localhost:4200`.
+
+### Tests
 
 ```bash
-ng generate --help
+npm test
 ```
-
-## Building
-
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
