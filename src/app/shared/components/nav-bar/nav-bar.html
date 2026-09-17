@@ -1,0 +1,16 @@
+<nav class="nav-bar">
+  <a routerLink="/" class="brand">EventsPlatform</a>
+
+  <div class="nav-links">
+    <a routerLink="/">Events</a>
+
+    @if (authService.loggedIn()) {
+      <a routerLink="/my-events">My Events</a>
+      <a routerLink="/profile">Profile</a>
+      <button (click)="logout()">Logout</button>
+    } @else {
+      <a routerLink="/login">Login</a>
+      <a routerLink="/register">Register</a>
+    }
+  </div>
+</nav>
