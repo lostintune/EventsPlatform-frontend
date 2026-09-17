@@ -1,0 +1,72 @@
+<div class="event-form-container">
+  <h2>{{ isEditMode() ? 'Edit Event' : 'Create Event' }}</h2>
+
+  @if (loading()) {
+    <p>Loading...</p>
+  }
+
+  @if (errorMessage()) {
+    <div class="error-message">{{ errorMessage() }}</div>
+  }
+
+  @if (isEditMode()) {
+    <div class="picture-section">
+      <img [src]="currentPicture()" alt="Current picture">
+      <input type="file" accept="image/*" (change)="onFileSelectedForEdit($event)">
+      @if (uploadingPicture()) {
+        <p>Uploading...</p>
+      }
+    </div>
+  }
+
+  <form [formGroup]="eventForm" (ngSubmit)="onSubmit()">
+    <div class="form-field">
+      <label for="name">Name</label>
+      <input id="name" type="text" formControlName="name">
+      @if (eventForm.get('name')?.invalid && eventForm.get('name')?.touched) {
+        <div class="field-error">Name is required</div>
+      }
+    </div>
+
+    <div class="form-field">
+      <label for="shortDescription">Short Description</label>
+      <input id="shortDescription" type="text" formControlName="shortDescription">
+      @if (eventForm.get('shortDescription')?.invalid && eventForm.get('shortDescription')?.touched) {
+        <div class="field-error">Short description is required</div>
+      }
+    </div>
+
+    <div class="form-field">
+      <label for="fullDescription">Full Description</label>
+      <textarea id="fullDescription" formControlName="fullDescription" rows="5"></textarea>
+      @if (eventForm.get('fullDescription')?.invalid && eventForm.get('fullDescription')?.touched) {
+        <div class="field-error">Full description is required</div>
+      }
+    </div>
+
+    @if (!isEditMode()) {
+      <div class="form-field">
+        <label for="picture">Picture</label>
+        <input id="picture" type="file" accept="image/*" (change)="onFileSelectedForCreate($event)">
+        @if (uploadingPicture()) {
+          <p>Uploading...</p>
+        }
+        @if (eventForm.get('picture')?.invalid && eventForm.get('picture')?.touched) {
+          <div class="field-error">Picture is required</div>
+        }
+      </div>
+    }
+
+    <div class="form-field">
+      <label for="date">Date</label>
+      <input id="date" type="date" formControlName="date">
+      @if (eventForm.get('date')?.invalid && eventForm.get('date')?.touched) {
+        <div class="field-error">Date is required</div>
+      }
+    </div>
+
+    <button type="submit" [disabled]="eventForm.invalid || saving()">
+      {{ saving() ? 'Saving...' : (isEditMode() ? 'Save Changes' : 'Create Event') }}
+    </button>
+  </form>
+</div>

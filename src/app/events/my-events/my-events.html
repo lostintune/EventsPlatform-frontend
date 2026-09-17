@@ -1,0 +1,44 @@
+<div class="my-events-container">
+  <div class="header-row">
+    <h2>My Events</h2>
+    <a routerLink="/my-events/new" class="create-btn">+ Create Event</a>
+  </div>
+
+  @if (loading()) {
+    <p>Loading...</p>
+  }
+
+  @if (errorMessage()) {
+    <div class="error-message">{{ errorMessage() }}</div>
+  }
+
+  <div class="event-list">
+    @for (event of events(); track event.id) {
+      <div class="event-row">
+        <div class="event-info">
+          <span class="status-badge" [class.published]="event.isPublished">
+            {{ event.isPublished ? 'Published' : 'Draft' }}
+          </span>
+          <h3>{{ event.name }}</h3>
+          <span class="event-date">{{ event.date }}</span>
+        </div>
+        <div class="event-actions">
+          <a [routerLink]="['/my-events', event.id, 'edit']">Edit</a>
+          <button (click)="togglePublish(event)">
+            {{ event.isPublished ? 'Unpublish' : 'Publish' }}
+          </button>
+          <button (click)="deleteEvent(event)" class="delete-btn">Delete</button>
+        </div>
+      </div>
+    }
+  </div>
+
+  @if (totalPages() > 1) {
+  <div class="pagination">
+    <button (click)="previousPage()" [disabled]="currentPage() === 1">Previous</button>
+    <span>Page {{ currentPage() }} of {{ totalPages() }}</span>
+    <button (click)="nextPage()" [disabled]="currentPage() === totalPages()">Next</button>
+  </div>
+}
+
+</div>
