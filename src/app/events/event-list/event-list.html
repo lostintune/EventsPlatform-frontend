@@ -1,0 +1,34 @@
+<div class="event-list-container">
+  <h2>Events</h2>
+  
+  @if (loading()) {
+    <p>Loading...</p>
+  }
+
+  @if (errorMessage()) {
+    <div class="error-message">{{ errorMessage() }}</div>
+  }
+
+  <div class="search-bar">
+    <input #searchInput type="text" placeholder="Search events..." [value]="searchTerm">
+    <button (click)="onSearch(searchInput.value)">Search</button>
+  </div>
+  <div class="event-grid">
+    @for (event of events(); track event.id) {
+      <div class="event-card" [routerLink]="['/events', event.id]">
+        <img [src]="event.picture" [alt]="event.name">
+        <h3>{{ event.name }}</h3>
+        <p>{{ event.shortDescription }}</p>
+        <span class="event-date">{{ event.date }}</span>
+      </div>
+    }
+  </div>
+
+  @if (totalPages() > 1) {
+  <div class="pagination">
+    <button (click)="previousPage()" [disabled]="currentPage() === 1">Previous</button>
+    <span>Page {{ currentPage() }} of {{ totalPages() }}</span>
+    <button (click)="nextPage()" [disabled]="currentPage() === totalPages()">Next</button>
+  </div>
+}
+</div>

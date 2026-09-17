@@ -1,0 +1,18 @@
+<a routerLink="/" class="back-link">← Back to Events</a>
+<div class="event-detail-container">
+  @if (loading()) {
+    <p>Loading...</p>
+  }
+
+  @if (errorMessage()) {
+    <div class="error-message">{{ errorMessage() }}</div>
+  }
+
+  @if (event(); as event) {
+    <img [src]="event.picture" [alt]="event.name">
+    <h2>{{ event.name }}</h2>
+    <span class="event-date">{{ event.date }}</span>
+    <p class="event-author">By {{ event.authorUsername }}</p>
+    <p class="event-description">{{ event.fullDescription }}</p>
+  }
+</div>
