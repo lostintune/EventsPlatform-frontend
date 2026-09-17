@@ -1,0 +1,49 @@
+<div class="profile-container">
+  <h2>My Profile</h2>
+
+  @if (loading()) {
+    <p>Loading...</p>
+  }
+
+  @if (errorMessage()) {
+    <div class="error-message">{{ errorMessage() }}</div>
+  }
+
+  @if (successMessage()) {
+    <div class="success-message">{{ successMessage() }}</div>
+  }
+  
+  @if (profile(); as profile) {
+    <div class="read-only-info">
+      <p><strong>Username:</strong> {{ profile.username }}</p>
+      <p><strong>Email:</strong> {{ profile.email }}</p>
+      @if (profile.phoneNumber) {
+        <p><strong>Phone:</strong> {{ profile.phoneNumber }}</p>
+      }
+    </div>
+
+    <form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
+      <div class="form-field">
+        <label for="firstName">First Name</label>
+        <input id="firstName" type="text" formControlName="firstName">
+
+        @if (profileForm.get('firstName')?.invalid && profileForm.get('firstName')?.touched) {
+          <div class="field-error">First name is required</div>
+        }
+      </div>
+
+      <div class="form-field">
+        <label for="lastName">Last Name</label>
+        <input id="lastName" type="text" formControlName="lastName">
+
+        @if (profileForm.get('lastName')?.invalid && profileForm.get('lastName')?.touched) {
+          <div class="field-error">Last name is required</div>
+        }
+      </div>
+
+      <button type="submit" [disabled]="profileForm.invalid || saving()">
+        {{ saving() ? 'Saving...' : 'Save changes' }}
+      </button>
+    </form>
+  }
+</div>
